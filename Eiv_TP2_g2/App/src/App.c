@@ -63,19 +63,26 @@ void loop(void) {
 	if (p == 0){
 
 		j++;
-		if(j>4){
+
+		if(j>7){
 			j=0;
 		}
 	}
 
 	for(int i=0 ; i<4 ; i++){
+	int	k=i+j;
+		if(k>7){
 
-		uint8_t config_catodos = palabra[i+j];
+			k=k-8;
+		}
+
+		uint8_t config_catodos = palabra[k];
 		uint8_t config_anodos = 1<<i;
 		// actualiza pines de salida que controlan el display
 		R595_ingresaByte(&registroDisplay, config_catodos);
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
+
 	}
 
 
