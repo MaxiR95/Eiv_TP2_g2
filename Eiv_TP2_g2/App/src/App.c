@@ -32,8 +32,8 @@ static R595 registroDisplay;
 		{0x79|0x80, 0x24|0x80, 0x30|0x80, 0x19|0x80},		//digitos 1 2 3 4 sin puntos,
 		{0x88, 0x83, 0xC6, 0xA1}};		//letras A B C D sin puntos*/
 static uint8_t palabra[8]={0x88, 0x83, 0xC6, 0xA1, 0x79|0x80, 0x24|0x80, 0x30|0x80, 0x19|0x80};
-int j=0;
-int p=1;
+
+
 void setup(void) {
 	/*Inicializar objetos Pin*/
 	Pin_init(&pulsador,pulsador_GPIO_Port,pulsador_Pin);
@@ -49,24 +49,22 @@ void setup(void) {
 
 
 void loop(void) {
-	//int j=0;
+	static int j=0;
 
-	if(Pin_leer(&pulsador) == 0){
-		HAL_Delay(20);
-		if(Pin_leer(&pulsador) == 1){
+	static int p=1;
+	const int presionado=(Pin_leer(&pulsador) == 0);
+	if(p==1){
+		if(presionado){
+			j++;
 			p=0;
+			if(j>7){
+				j=0;
+			}
 		}
+
 	}else{
-		p=1;
-	}
-	//Lee boton en A1
-	if (p == 0){
-
-		j++;
-
-		if(j>7){
-			j=0;
-		}
+		if(presionado==0){
+		p=1;}
 	}
 
 	for(int i=0 ; i<4 ; i++){
@@ -82,7 +80,7 @@ void loop(void) {
 		R595_ingresaByte(&registroDisplay, config_catodos);
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
-
+		HAL_Delay(10);
 	}
 
 
