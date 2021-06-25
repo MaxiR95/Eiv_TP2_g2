@@ -60,57 +60,23 @@ void loop(void) {
 		p=1;
 	}
 	//Lee boton en A1
-	if (p == 1) {
-
-		for(int i=0 ; i<4 ; i++){
-
-				uint8_t config_catodos = palabra[j];
-				uint8_t config_anodos = 1<<i;
-				// actualiza pines de salida que controlan el display
-				R595_ingresaByte(&registroDisplay, config_catodos);
-				R595_ingresaByte(&registroDisplay, config_anodos);
-				R595_actualizaSalidas(&registroDisplay);
-				j++;}
-		j=j-4;
-
-	}else{
+	if (p == 0){
 
 		j++;
-		if(j<=4){
-			for(int i=0 ; i<4 ; i++){
-
-							uint8_t config_catodos = palabra[j];
-							uint8_t config_anodos = 1<<i;
-							// actualiza pines de salida que controlan el display
-							R595_ingresaByte(&registroDisplay, config_catodos);
-							R595_ingresaByte(&registroDisplay, config_anodos);
-							R595_actualizaSalidas(&registroDisplay);
-							j++;}
-					j=j-4;
-		}else{
+		if(j>4){
 			j=0;
-			for(int i=0 ; i<4 ; i++){
-
-										uint8_t config_catodos = palabra[j];
-										uint8_t config_anodos = 1<<i;
-										// actualiza pines de salida que controlan el display
-										R595_ingresaByte(&registroDisplay, config_catodos);
-										R595_ingresaByte(&registroDisplay, config_anodos);
-										R595_actualizaSalidas(&registroDisplay);
-										j++;}
-								j=j-4;
 		}
 	}
 
-	/*for(int i=0 ; i<4 ; i++){
+	for(int i=0 ; i<4 ; i++){
 
-		uint8_t config_catodos = palabra[j];
+		uint8_t config_catodos = palabra[i+j];
 		uint8_t config_anodos = 1<<i;
 		// actualiza pines de salida que controlan el display
 		R595_ingresaByte(&registroDisplay, config_catodos);
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
-	}*/
+	}
 
 
 
