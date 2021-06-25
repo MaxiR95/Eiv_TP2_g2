@@ -64,7 +64,8 @@ void loop(void) {
 
 	}else{
 		if(presionado==0){
-		p=1;}
+			p=1;
+		}
 	}
 
 	for(int i=0 ; i<4 ; i++){
@@ -80,7 +81,7 @@ void loop(void) {
 		R595_ingresaByte(&registroDisplay, config_catodos);
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
-		HAL_Delay(10);
+		HAL_Delay(1);
 	}
 
 
