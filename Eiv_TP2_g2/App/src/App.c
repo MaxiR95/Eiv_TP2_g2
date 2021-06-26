@@ -70,7 +70,7 @@ void loop(void) {
 		R595_ingresaByte(&registroDisplay, config_catodos);
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
-		HAL_Delay(10);
+		HAL_Delay(1);
 	}
 
 
