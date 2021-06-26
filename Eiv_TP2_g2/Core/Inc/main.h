@@ -62,6 +62,7 @@ void Error_Handler(void);
 #define Led_GPIO_Port GPIOC
 #define pulsador_Pin GPIO_PIN_5
 #define pulsador_GPIO_Port GPIOB
+#define pulsador_EXTI_IRQn EXTI9_5_IRQn
 #define latch_Pin GPIO_PIN_7
 #define latch_GPIO_Port GPIOB
 #define data_Pin GPIO_PIN_8

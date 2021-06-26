@@ -33,6 +33,7 @@ static R595 registroDisplay;
 		{0x88, 0x83, 0xC6, 0xA1}};		//letras A B C D sin puntos*/
 static uint8_t palabra[8]={0x88, 0x83, 0xC6, 0xA1, 0x79|0x80, 0x24|0x80, 0x30|0x80, 0x19|0x80};
 
+static int offsetPalabra=0;
 
 void setup(void) {
 	/*Inicializar objetos Pin*/
@@ -47,30 +48,19 @@ void setup(void) {
 	R595_init(&registroDisplay, &data, &clock, &latch);
 }
 
-
-void loop(void) {
-	static int j=0;
-
-	static int p=1;
-	const int presionado=(Pin_leer(&pulsador) == 0);
-	if(p==1){
-		if(presionado){
-			j++;
-			p=0;
-			if(j>7){
-				j=0;
-			}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	if(GPIO_Pin==pulsador_Pin){
+		offsetPalabra++;
+		if(offsetPalabra>7){
+			offsetPalabra=0;
 		}
-
-	}else{
-		if(presionado==0){
-		p=1;}
 	}
+}
+void loop(void) {
 
 	for(int i=0 ; i<4 ; i++){
-	int	k=i+j;
+		int	k=i+ offsetPalabra;
 		if(k>7){
-
 			k=k-8;
 		}
 
