@@ -12,10 +12,10 @@
 #include <App.h>
 #include <pin.h>
 #include <r595.h>
+#include <stdbool.h>
 
-
-
-
+static volatile bool banderaPulsador;
+static volatile int contador=0;
 
 
 
@@ -33,7 +33,8 @@ static R595 registroDisplay;
 		{0x88, 0x83, 0xC6, 0xA1}};		//letras A B C D sin puntos*/
 static uint8_t palabra[8]={0x88, 0x83, 0xC6, 0xA1, 0x79|0x80, 0x24|0x80, 0x30|0x80, 0x19|0x80};
 
-static int offsetPalabra=0;
+static volatile int offsetPalabra=0;
+
 
 void setup(void) {
 	/*Inicializar objetos Pin*/
@@ -49,15 +50,17 @@ void setup(void) {
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if(GPIO_Pin==pulsador_Pin){
+	if(GPIO_Pin==pulsador_Pin && !banderaPulsador){
 		offsetPalabra++;
+		banderaPulsador=true;
+		contador=10;
 		if(offsetPalabra>7){
 			offsetPalabra=0;
 		}
 	}
 }
-void loop(void) {
 
+static void actualizaDisplay (void) {
 	for(int i=0 ; i<4 ; i++){
 		int	k=i+ offsetPalabra;
 		if(k>7){
@@ -71,9 +74,19 @@ void loop(void) {
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
 		HAL_Delay(1);
+		}
+
+}
+
+
+void loop(void) {
+	actualizaDisplay();
+	if (banderaPulsador){
+		if(contador==0){
+			banderaPulsador=false;
+		}else {
+			contador--;
+		}
 	}
-
-
-
 
 }
