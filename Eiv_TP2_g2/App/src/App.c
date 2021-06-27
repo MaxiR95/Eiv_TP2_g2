@@ -53,7 +53,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin==pulsador_Pin && !banderaPulsador){
 		offsetPalabra++;
 		banderaPulsador=true;
-		contador=10;
+		contador=50;
 		if(offsetPalabra>7){
 			offsetPalabra=0;
 		}
@@ -74,7 +74,7 @@ static void actualizaDisplay (void) {
 		R595_ingresaByte(&registroDisplay, config_anodos);
 		R595_actualizaSalidas(&registroDisplay);
 		HAL_Delay(1);
-		}
+	}
 
 }
 
