@@ -19,7 +19,7 @@ static volatile int contador=0;
 
 
 
-static Pin pulsador;
+
 static Pin led;
 
 static Pin data;
@@ -38,7 +38,7 @@ static volatile int offsetPalabra=0;
 
 void setup(void) {
 	/*Inicializar objetos Pin*/
-	Pin_init(&pulsador,pulsador_GPIO_Port,pulsador_Pin);
+
 	Pin_init(&led,Led_GPIO_Port,Led_Pin);
 	/* HACER: Terminar inicialización pines*/
 	Pin_init(&data,data_GPIO_Port,data_Pin);
