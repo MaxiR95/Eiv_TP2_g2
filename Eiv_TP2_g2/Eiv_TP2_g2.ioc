@@ -126,5 +126,5 @@ RCC.APB1Freq_Value=8000000
 ProjectManager.CustomerFirmwarePackage=
 ProjectManager.DeviceId=STM32F103C6Tx
 ProjectManager.LibraryCopy=1
-PB5.GPIO_ModeDefaultEXTI=GPIO_MODE_IT_FALLING
+PB5.GPIO_ModeDefaultEXTI=GPIO_MODE_IT_RISING_FALLING
 isbadioc=false

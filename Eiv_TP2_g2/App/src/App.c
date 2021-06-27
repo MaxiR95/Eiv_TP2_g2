@@ -49,13 +49,43 @@ void setup(void) {
 	R595_init(&registroDisplay, &data, &clock, &latch);
 }
 
+static void inicia_antirrebote(void){
+	banderaPulsador=true;
+	contador=1;
+}
+static void avanza_offsetPalabra(void){
+	offsetPalabra++;
+	if(offsetPalabra>7){
+		offsetPalabra=0;
+	}
+}
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	enum {NO_PRESIONADO,PRESIONADO};
+	static int estado = NO_PRESIONADO;
+
 	if(GPIO_Pin==pulsador_Pin && !banderaPulsador){
-		offsetPalabra++;
-		banderaPulsador=true;
-		contador=50;
-		if(offsetPalabra>7){
-			offsetPalabra=0;
+
+		const bool flancoDescendente =
+				HAL_GPIO_ReadPin(pulsador_GPIO_Port, pulsador_Pin) == 0;
+		const bool flancoAscendente = !flancoDescendente;
+
+ 		switch(estado){
+		case NO_PRESIONADO:
+			if (flancoDescendente){
+				avanza_offsetPalabra();
+				estado = PRESIONADO;
+				inicia_antirrebote();
+			}
+			break;
+		case PRESIONADO:
+			if (flancoAscendente){
+				estado = NO_PRESIONADO;
+				inicia_antirrebote();
+			}
+			break;
+		default:
+			estado = NO_PRESIONADO;
+			break;
 		}
 	}
 }
