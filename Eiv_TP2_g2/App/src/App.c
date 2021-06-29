@@ -50,11 +50,11 @@ void setup(void) {
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if(GPIO_Pin==pulsador_Pin && !banderaPulsador){
-		offsetPalabra++;
-		banderaPulsador=true;
-		contador=50;
-		if(offsetPalabra>7){
+	if(GPIO_Pin==pulsador_Pin && !banderaPulsador){//verifico si estoy presionandoPINy elestadodela bandera
+		offsetPalabra++;					//incremento palabra
+		banderaPulsador=true;				//cambio valor bandera
+		contador=1;							//inicio contador
+		if(offsetPalabra>7){				//verificacion de desborde
 			offsetPalabra=0;
 		}
 	}
